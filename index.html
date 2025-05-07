@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To do app</title>
+    <link  rel="stylesheet" href="style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <section class="todo">
+        <div>
+            <h1>MY TODO LIST</h1>
+        </div>
+
+        <div class="inputTodo">
+            <input type="text" placeholder="Type here" id="input">
+            <!--<span class="time"><i class='bx bx-time'></i></span>-->
+            <button class="enter"><i class='bx bx-plus'></i></button>
+        </div>
+
+        <div class="item">
+            <ul class="list"></ul>
+        </div>
+    </section>
+
+    <script>
+        const input = document.querySelector('#input');
+        const list = document.querySelector('.list');
+        const enter = document.querySelector('.enter');
+       // const time = document.querySelector('.time');
+
+        enter.addEventListener('click', addInput);
+        function addInput() {
+            const text = input.value.trim();
+            //.trim remove all extra space
+            if(text !== ''){
+                //creating input
+                const task = document.createElement('li');
+                list.appendChild(task);
+                input.value = '';
+                task.classList.add('task')
+
+                //creating checkbox
+                const checkBox = document.createElement('input');
+                checkBox.type = 'checkbox';
+                checkBox.classList.add('checkbox');
+
+                //creating cancel icon
+                const cancel = document.createElement('span');
+                cancel.textContent = '×';
+                cancel.classList.add('X');
+
+                //creating Span to get input textcontent
+                const span = document.createElement('span');
+                span.textContent = text;
+                span.classList.add('textstyle');
+
+                task.appendChild(checkBox);
+                task.appendChild(span);
+                task.appendChild(cancel);
+  
+                //adding color for checkbox
+                checkBox.addEventListener('click', function (e){
+                    e.preventDefault;
+                    if(checkBox.checked){
+                        task.classList.add('done');
+                    }
+                    else{task.classList.remove('done');}
+                    })
+
+                //adding cancel event
+                cancel.addEventListener('click', () => {
+                    task.remove();
+                })
+            }
+        }
+
+        //enabling the enter button to also add an imput
+        input.addEventListener('keyup', (event) => {
+            if (event.key == 'Enter') {
+                addInput();
+            }
+        });
+
+
+        //light darkmode toggle
+        
+        /*
+        const create = (event) => {
+            if (event.key == 'Enter') {
+                addItem(input.value)
+                input.value = ''
+            }
+        }
+
+        input.addEventListener('keyup', create);
+
+            let addItem = (input) => {
+                let listItem = document.createElement('li');
+                listItem.innerHTML  = `${input}<i><i>`
+
+                    listItem.addEventListener('click', function(e){
+                        this.classList.toggle('done');
+                    })
+
+                    list.appendChild(listItem);
+            }*/
+
+
+
+   </script>
+</body>
+</html>
