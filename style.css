@@ -148,4 +148,8 @@ button{
     body{
         box-shadow: 0 0 4px 4px rgb(245, 241, 241);
     }
+
+    .list{
+        height: 78vh;
+    }
 }
