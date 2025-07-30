@@ -59,7 +59,10 @@
                 task.appendChild(checkBox);
                 task.appendChild(span);
                 task.appendChild(cancel);
-  
+
+                // Save to local storage
+        saveTaskToStorage(text, checkBox.checked);
+
                 //adding color for checkbox
                 checkBox.addEventListener('click', function (e){
                     e.preventDefault;
@@ -67,11 +70,14 @@
                         task.classList.add('done');
                     }
                     else{task.classList.remove('done');}
+
+                    updateTaskStatusInStorage(text, checkBox.checked);
                     })
 
                 //adding cancel event
                 cancel.addEventListener('click', () => {
                     task.remove();
+                    removeTaskFromStorage(text);
                 })
             }
         }
@@ -83,32 +89,36 @@
             }
         });
 
+//Saving to local storage
+// Load saved tasks on page load
+window.addEventListener('DOMContentLoaded', loadTasksFromStorage);
 
-        //light darkmode toggle
-        
-        /*
-        const create = (event) => {
-            if (event.key == 'Enter') {
-                addItem(input.value)
-                input.value = ''
-            }
-        }
+// Save a task to localStorage
+function saveTaskToStorage(text, isDone) {
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    tasks.push({ text, isDone });
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
 
-        input.addEventListener('keyup', create);
+// Load tasks from localStorage
+function loadTasksFromStorage() {
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    tasks.forEach(task => addInput(task.text, task.isDone));
+}
 
-            let addItem = (input) => {
-                let listItem = document.createElement('li');
-                listItem.innerHTML  = `${input}<i><i>`
+// Remove task from localStorage
+function removeTaskFromStorage(text) {
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    tasks = tasks.filter(task => task.text !== text);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
 
-                    listItem.addEventListener('click', function(e){
-                        this.classList.toggle('done');
-                    })
-
-                    list.appendChild(listItem);
-            }*/
-
-
-
+// Update task checkbox state in localStorage
+function updateTaskStatusInStorage(text, isDone) {
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    tasks = tasks.map(task => task.text === text ? { ...task, isDone } : task);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
    </script>
 </body>
 </html>
